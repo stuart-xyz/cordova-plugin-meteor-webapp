@@ -43,6 +43,9 @@ public class WebAppLocalServer: METPlugin, AssetBundleManagerDelegate {
     }
   }
 
+  /// User modifiable rootURL (exists to make hot code push location switching possible)
+  var user_rootURL: String?
+
   /// Downloaded asset bundles are considered pending until the next page reload
   /// because we don't want the app to end up in an inconsistent state by
   /// loading assets from different bundles.
@@ -223,6 +226,15 @@ public class WebAppLocalServer: METPlugin, AssetBundleManagerDelegate {
         NSLog("Could not remove unused asset bundles: \(error)")
       }
     }
+
+    let result = CDVPluginResult(status: CDVCommandStatus_OK)
+    self.commandDelegate?.sendPluginResult(result, callbackId: command.callbackId)
+  }
+
+  public func setRootUrlAndCheckForUpdates(command: CDVInvokedUrlCommand) {
+    let rootURL = command.arguments[0];
+    let baseURL = rootURL.URLByAppendingPathComponent("__cordova/")
+    assetBundleManager.checkForUpdatesWithBaseURL(baseURL)
 
     let result = CDVPluginResult(status: CDVCommandStatus_OK)
     self.commandDelegate?.sendPluginResult(result, callbackId: command.callbackId)

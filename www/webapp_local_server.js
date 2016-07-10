@@ -10,6 +10,15 @@ module.exports = {
       []);
   },
 
+  setRootUrlAndCheckForUpdates: function(callback, url) {
+  	cordova.exec(
+  		callback,
+  		console.error,
+  		"WebAppLocalServer",
+  		"setRootUrlAndCheckForUpdates",
+  		[url]);
+  },
+
   checkForUpdates: function(callback) {
     cordova.exec(
       callback,
