@@ -1,5 +1,25 @@
 # Meteor WebApp Cordova plugin
 
+## Updates
+
+A manual override for the Meteor root URL has been added as a plugin method. This allows the hot code push location to be changed at runtime by invoking this method directly from the main application code.
+
+For example: switch from https://appA.mydomain.com to https://appB.mydomain.com, downloading a completely independent App B code base into the App A container.
+```
+WebAppLocalServer.setRootUrlAndCheckForUpdates(function(message) {
+  console.log(message);
+}, "https://appB.mydomain.com");
+```
+
+### Installation
+
+To integrate this updated plugin into Meteor, either:
+
+* In Mac OS, navigate to `~/.cordova/lib/npm_cache/cordova-plugin-meteor-webapp` and open the newest version folder. Replace the contents of `package` with the contents of this repository, then compress `package`, replacing the existing `package.tgz`. Then build the project with `meteor run ios-device`
+* Build the project with `meteor run ios-device`, then overwrite `plugins/WebAppLocalServer.swift` and `Staging/www/plugins/cordova-plugin-meteor-webapp/www/webapp_local_server.js` with their updated contents
+
+---
+
 Cordova apps don’t load web content over the network, but rely on locally stored HTML, CSS, JavaScript code and other assets.
 
 Plain Cordova uses `file://` URLs to serve assets from the app bundle, but this has some drawbacks:
